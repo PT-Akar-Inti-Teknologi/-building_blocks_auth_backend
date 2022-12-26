@@ -13,5 +13,5 @@ export class CreateUserRolesDTO {
 
   is_all_access: boolean;
 
-  resource_accesses: UserRolesAccessesDTO[];
+  module_permissions: UserRolesAccessesDTO[];
 }

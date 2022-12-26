@@ -1,9 +1,7 @@
 export class UserRolesAccessesDTO {
-  name: string;
+  module_id: string;
 
-  code: string;
+  active_permissions: string[];
 
-  permissions: string[];
-
-  sub_accesses: UserRolesAccessesDTO[];
+  sub_module_permissions: UserRolesAccessesDTO[];
 }

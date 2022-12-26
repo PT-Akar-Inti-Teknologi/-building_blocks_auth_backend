@@ -3,9 +3,7 @@ export interface AccessTemplateInterface {
 
   code: string;
 
-  no_action: boolean;
-
   permissions: string[];
 
-  sub_accesses: AccessTemplateInterface[];
+  sub_modules: AccessTemplateInterface[];
 }

@@ -28,5 +28,5 @@ export class UserRolesDocument extends ModelBase {
   @OneToMany(() => UserRoleAccessesDocument, (model) => model.role, {
     cascade: ['insert', 'update', 'soft-remove'],
   })
-  resource_accesses: UserRoleAccessesDocument[];
+  module_permissions: UserRoleAccessesDocument[];
 }

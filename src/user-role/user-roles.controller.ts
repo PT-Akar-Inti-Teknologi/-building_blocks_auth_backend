@@ -9,6 +9,7 @@ import { IndexUserRolesDTO } from './dto/index-user-roles.dto';
 import { PaginationTransformer } from '../base/transformers/index.transformer';
 import { UserRolesDocument } from '../database/entities/user_roles.entity';
 import { accessTemplate } from './templates/user-role-access-template.data';
+import {ModulesService} from "./modules.service";
 
 @Controller('api/v1/auth/user-roles')
 export class UserRolesController extends BaseController<
@@ -18,6 +19,7 @@ export class UserRolesController extends BaseController<
 > {
   constructor(
     private readonly userRolesService: UserRolesService,
+    private readonly modulesService: ModulesService,
     private readonly messageService: MessageService,
     private readonly responseService: ResponseService,
   ) {
@@ -54,7 +56,7 @@ export class UserRolesController extends BaseController<
   @Get('/access-template')
   async getAccessTemplate() {
     return this.responseService.success(
-      accessTemplate,
+      await this.modulesService.findMany(),
       this.messageService.get('general.list.success'),
     );
   }

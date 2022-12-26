@@ -9,30 +9,28 @@ export const defaultAccess = [
 ];
 
 export const accessTemplate: AccessTemplateInterface[] = [
-  generateTemplate('Dashboard', 'DASHBOARD', false, defaultAccess),
-  generateTemplate('Permissions', 'PERMISSION', true, defaultAccess, [
-    generateTemplate('All Users', 'ALL_USERS', false, defaultAccess),
-    generateTemplate('User Roles', 'USER_ROLES', false, defaultAccess),
+  generateTemplate('Dashboard', 'DASHBOARD', defaultAccess),
+  generateTemplate('Permissions', 'PERMISSION', defaultAccess, [
+    generateTemplate('All Users', 'ALL_USERS', defaultAccess),
+    generateTemplate('User Roles', 'USER_ROLES', defaultAccess),
   ]),
-  generateTemplate('Home Menu', 'HOME_MENU', false, defaultAccess),
-  generateTemplate('Manage Banner', 'MANAGE_BANNER', true, defaultAccess, [
-    generateTemplate('Category', 'CATEGORY', false, defaultAccess),
-    generateTemplate('List', 'LIST', false, defaultAccess),
+  generateTemplate('Home Menu', 'HOME_MENU', defaultAccess),
+  generateTemplate('Manage Banner', 'MANAGE_BANNER', defaultAccess, [
+    generateTemplate('Category', 'CATEGORY', defaultAccess),
+    generateTemplate('List', 'LIST', defaultAccess),
   ]),
 ];
 
 export function generateTemplate(
   name: string,
   code: string,
-  no_action: boolean,
   permissions: string[],
-  sub_accesses: AccessTemplateInterface[] = [],
+  sub_modules: AccessTemplateInterface[] = [],
 ): AccessTemplateInterface {
   return {
     name,
     code,
-    no_action,
     permissions,
-    sub_accesses,
+    sub_modules,
   };
 }

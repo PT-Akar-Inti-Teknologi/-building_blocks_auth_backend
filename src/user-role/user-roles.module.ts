@@ -6,12 +6,23 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRolesService } from './user-roles.service';
 import { UserRolesDocument } from '../database/entities/user_roles.entity';
 import { UserRoleAccessesDocument } from '../database/entities/user_role_accesses.entity';
+import { ModulesDocument } from '../database/entities/modules.entity';
+import { ModulesService } from './modules.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserRolesDocument, UserRoleAccessesDocument]),
+    TypeOrmModule.forFeature([
+      UserRolesDocument,
+      UserRoleAccessesDocument,
+      ModulesDocument,
+    ]),
   ],
   controllers: [UserRolesController],
-  providers: [MessageService, ResponseService, UserRolesService],
+  providers: [
+    MessageService,
+    ResponseService,
+    UserRolesService,
+    ModulesService,
+  ],
 })
 export class UserRolesModule {}

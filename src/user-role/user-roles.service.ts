@@ -17,7 +17,12 @@ export class UserRolesService extends ServiceBase<UserRolesDocument> {
   ) {
     super(repository);
 
-    this.relations = ['resource_accesses', 'resource_accesses.sub_accesses'];
+    this.relations = [
+      'module_permissions',
+      'module_permissions.module',
+      'module_permissions.sub_module_permissions',
+      'module_permissions.sub_module_permissions.module',
+    ];
   }
 
   async paginate(
