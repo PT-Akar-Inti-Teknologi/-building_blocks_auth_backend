@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseService } from './database/database.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
 import { InternalModule } from './internal/internal.module';
 import { SeederModule } from './database/seeders/seeder.module';
 import { CommonModule } from './common/common.module';
@@ -24,7 +23,6 @@ import { UserRolesModule } from './user-role/user-roles.module';
         password: process.env.REDIS_PASSWORD,
       },
     }),
-    AuthModule,
     InternalModule,
     SeederModule,
     CommonModule,

@@ -1,3 +1,1 @@
-import admins from './admins';
-
-export default { admins };
+export default {};
