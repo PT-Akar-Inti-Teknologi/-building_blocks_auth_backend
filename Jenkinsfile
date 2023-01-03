@@ -2,8 +2,22 @@ pipeline {
   agent any
 
   stages {
+    
+     stage('Check Commit') {
+       steps {
+        script {
+          result = sh (script: "git log -1 | grep -E '(feat|build|chore|fix|docs|refactor|perf|style|test)(\\(.+\\))*:'", returnStatus: true)
+          if (result != 0) {
+            throw new Exception("failed, not meet commit standard!")
+          }
+        }
+       }
+     }    
 
     stage('Snyk Scan') {
+      when {
+        branch "development"
+      }      
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
           snykSecurity(
