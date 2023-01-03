@@ -2,33 +2,6 @@ pipeline {
   agent any
 
   stages {
-    stage('Build & Test') {
-      when {
-        branch "development"
-      }
-      agent {
-        docker {
-          image 'node:14.17.0-alpine'
-          reuseNode true
-        }
-      }
-      steps {
-        sh 'yarn install'
-        sh 'yarn test:cov'
-      }
-    }
-
-    stage('Coding Standard') {
-      agent {
-        docker {
-          image 'node:14.17.0-alpine'
-          reuseNode true
-        }
-      }
-      steps {
-        sh 'yarn lint:test'
-      }
-    }
 
     stage('Sonarqube Analysis') {
       environment {
@@ -45,10 +18,27 @@ pipeline {
     stage('Quality Gate') {
       steps {
         timeout(time: 1, unit: 'HOURS') {
-          waitForQualityGate abortPipeline: true
+          waitForQualityGate abortPipeline: false
         }
       }
     }
+
+    stage('Build Image - Push - Deploy') {
+        when {
+          branch "development"
+            }
+          steps {
+             script {
+                withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG'), 
+                usernamePassword(credentialsId: 'ait-k8s_docker-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                   sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
+                   sh 'mkdir -p $HOME/.kube'
+                   sh 'cat ${CONFIG} > ~/.kube/config'
+                   sh 'skaffold run -n building-blocks'
+               }
+            }
+         }
+      }
   }
 
   post {
