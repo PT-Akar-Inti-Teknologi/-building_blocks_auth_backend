@@ -5,10 +5,16 @@ pipeline {
 
     stage('Snyk Scan') {
       steps {
-        snykSecurity(
-          snykInstallation: 'snyk',
-          snykTokenId: 'snyk-token',
-        )
+        script {
+          try {
+            snykSecurity(
+              snykInstallation: 'snyk',
+              snykTokenId: 'snyk-token'
+            )        
+          }catch(error) {
+            currentBuild.result = 'FAILURE'
+          }
+        }
       }
     }
 
