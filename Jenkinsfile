@@ -3,6 +3,15 @@ pipeline {
 
   stages {
 
+    stage('Snyk Scan') {
+      steps {
+        snykSecurity(
+          snykInstallation: 'snyk',
+          snykTokenId: 'snyk-token',
+        )
+      }
+    }
+
     stage('Sonarqube Analysis') {
       environment {
         scannerHome = tool 'sonarqube-scanner'
