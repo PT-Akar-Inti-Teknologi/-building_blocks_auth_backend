@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  environment {
+    BRANCH_NAME = "${env.GIT_BRANCH}"
+  }   
+  
   stages {
     
      stage('Check Commit') {
@@ -14,15 +18,13 @@ pipeline {
        }
      }    
 
-    stage('Snyk Scan') {
-      when {
-        branch "development"
-      }      
+    stage('Snyk Scan') {    
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
           snykSecurity(
             snykInstallation: 'snyk',
-            snykTokenId: 'snyk-token'
+            snykTokenId: 'snyk-token',
+            additionalArguments: '--target-reference=${BRANCH_NAME}'
           )
         }
       }
@@ -33,7 +35,9 @@ pipeline {
       environment {
         scannerHome = tool 'sonarqube-scanner'
       }
-
+      when {
+        branch "development"
+      }
       steps {
         withSonarQubeEnv(installationName: 'sonarqube') {
           sh '$scannerHome/bin/sonar-scanner'
@@ -42,6 +46,9 @@ pipeline {
     }
 
     stage('Quality Gate') {
+      when {
+        branch "development"
+      }      
       steps {
         timeout(time: 1, unit: 'HOURS') {
           waitForQualityGate abortPipeline: false
