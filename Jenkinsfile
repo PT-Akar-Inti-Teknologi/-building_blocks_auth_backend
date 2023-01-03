@@ -5,18 +5,15 @@ pipeline {
 
     stage('Snyk Scan') {
       steps {
-        script {
-          try {
-            snykSecurity(
-              snykInstallation: 'snyk',
-              snykTokenId: 'snyk-token'
-            )        
-          }catch(error) {
-            currentBuild.result = 'FAILURE'
-          }
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          snykSecurity(
+            snykInstallation: 'snyk',
+            snykTokenId: 'snyk-token'
+          )
         }
       }
     }
+
 
     stage('Sonarqube Analysis') {
       environment {
