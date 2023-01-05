@@ -24,7 +24,7 @@ pipeline {
           snykSecurity(
             snykInstallation: 'snyk',
             snykTokenId: 'snyk-token',
-            additionalArguments: '--all-projects --target-reference=${BRANCH_NAME}'
+            additionalArguments: '--all-projects --target-reference=${BRANCH_NAME} --strict-out-of-sync=false'
           )
         }
       }
