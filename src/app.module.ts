@@ -9,6 +9,7 @@ import { SeederModule } from './database/seeders/seeder.module';
 import { CommonModule } from './common/common.module';
 import { BullModule } from '@nestjs/bull';
 import { UserRolesModule } from './user-role/user-roles.module';
+import { InternalUserRolesModule } from './internal/internal-user-roles/internal-user-roles.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UserRolesModule } from './user-role/user-roles.module';
     SeederModule,
     CommonModule,
     UserRolesModule,
+    InternalUserRolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

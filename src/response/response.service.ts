@@ -1,9 +1,9 @@
-import {BadRequestException, HttpStatus, Injectable} from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import {
   ErrorMessageInterface,
-  PaginationInterface,
   ResponseErrorInterface,
   ResponseSuccessCollectionInterface,
+  PaginationInterface,
   ResponseSuccessPaginationInterface,
   ResponseSuccessSingleInterface,
 } from './response.interface';
@@ -11,7 +11,10 @@ import {
 @Injectable()
 export class ResponseService {
   responseCode(statusCode: number) {
-    return `${process.env.PROJECT_NAME}-${statusCode.toString()}`;
+    const responseCode = `${
+      process.env.PROJECT_NAME
+    }-AUTH-${statusCode.toString()}`;
+    return responseCode;
   }
 
   error(
@@ -80,6 +83,7 @@ export class ResponseService {
     const errorMessage: ErrorMessageInterface = {
       field: '',
       message: error.message,
+      code: '',
     };
     throw new BadRequestException(
       this.error(

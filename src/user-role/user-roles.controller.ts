@@ -9,7 +9,7 @@ import { IndexUserRolesDTO } from './dto/index-user-roles.dto';
 import { PaginationTransformer } from '../base/transformers/index.transformer';
 import { UserRolesDocument } from '../database/entities/user_roles.entity';
 import { accessTemplate } from './templates/user-role-access-template.data';
-import {ModulesService} from "./modules.service";
+import { ModulesService } from './modules.service';
 
 @Controller('api/v1/auth/user-roles')
 export class UserRolesController extends BaseController<

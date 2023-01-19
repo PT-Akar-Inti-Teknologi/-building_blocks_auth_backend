@@ -260,6 +260,10 @@ export const removeAllFieldPassword = function removeAllFieldPassword(
   }
 };
 
+export const camelToSnake = function camelToSnake(camel: string): string {
+  return camel.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+};
+
 export const getDistanceInKilometers = (
   lat1: number,
   lon1: number,
