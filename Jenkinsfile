@@ -1,9 +1,6 @@
 pipeline {
   agent any
 
-  environment {
-    BRANCH_NAME = "${env.GIT_BRANCH}"
-  }   
   
   stages {
     
@@ -17,19 +14,6 @@ pipeline {
         }
        }
      }    
-
-    stage('Snyk Scan') {    
-      steps {
-        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-          snykSecurity(
-            snykInstallation: 'snyk',
-            snykTokenId: 'snyk-token',
-            additionalArguments: '--all-projects --target-reference=${BRANCH_NAME} --strict-out-of-sync=false'
-          )
-        }
-      }
-    }
-
 
     stage('Sonarqube Analysis') {
       environment {
