@@ -17,10 +17,10 @@ spec:
         version: "1"
     spec:
       imagePullSecrets:
-        - name: registry-secret
+        - name: ait-registry-secret
       containers:
       - name: auth
-        image: ait-cr.akarinti.tech/building-blocks-auth
+        image: aitops/building-blocks-auth
         #resources:
         #  requests:
         #    memory: "500Mi"

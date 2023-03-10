@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: auth-svc
   labels:
+    ait.tech/building_blocks_auth_backend: development
     app: building-blocks
     service: auth
 spec:

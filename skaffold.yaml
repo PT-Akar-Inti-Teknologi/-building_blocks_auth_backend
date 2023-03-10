@@ -6,6 +6,6 @@ deploy:
       - "./k8s/*"
 build:
   artifacts:
-    - image: ait-cr.akarinti.tech/building-blocks-auth
+    - image: aitops/building-blocks-auth
       docker:
         dockerfile: prod.Dockerfile

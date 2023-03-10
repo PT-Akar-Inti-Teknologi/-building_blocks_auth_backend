@@ -63,8 +63,8 @@ pipeline {
           steps {
              script {
                 withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG'), 
-                usernamePassword(credentialsId: 'ait-k8s_docker-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                   sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
+                usernamePassword(credentialsId: 'aitops-docker-io', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                   sh 'docker login --username=${USER} --password=${PASS}'
                    sh 'mkdir -p $HOME/.kube'
                    sh 'cat ${CONFIG} > ~/.kube/config'
                    sh 'skaffold run -n building-blocks'
