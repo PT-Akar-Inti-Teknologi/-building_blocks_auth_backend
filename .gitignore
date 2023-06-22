@@ -39,3 +39,9 @@ lerna-debug.log*
 
 # npm
 .npmrc
+
+#k8s
+k8s/*
+Jenkinsfile
+skaffold.yaml
+sonar-project.properties

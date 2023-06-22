@@ -9,6 +9,7 @@ pipeline {
       NAMESPACE = "building-blocks"
       PATH = newPath(env)
       ALLOWED_BRANCH = "development"
+      RUN_SNYK= sh script: "git log -1 | grep -E -- '--run-snyk'", returnStatus: true
     }
 
   stages {
@@ -46,7 +47,7 @@ pipeline {
     }
 
     stage('Snyk Scan for Code') {
-      when { anyOf { branch "$ALLOWED_BRANCH" } }
+      when { allOf { branch "$ALLOWED_BRANCH"; expression { env.RUN_SNYK == '0' } } }
       steps {
         script {
           withCredentials([usernamePassword(credentialsId: 'aitops', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME'), file(credentialsId: 'snyk-sh', variable: 'SNYK_SH')]) {
@@ -66,7 +67,7 @@ pipeline {
     } 
 
     stage('Snyk Open Source Vulnerability'){
-      when { anyOf { branch "$ALLOWED_BRANCH" } }
+      when { allOf { branch "$ALLOWED_BRANCH"; expression { env.RUN_SNYK == '0' } } }
       steps {
         script {
           def now = new Date()
