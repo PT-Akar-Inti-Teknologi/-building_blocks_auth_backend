@@ -42,6 +42,6 @@ lerna-debug.log*
 
 #k8s
 k8s/*
-Jenkinsfile
+.Jenkinsfile
 skaffold.yaml
 sonar-project.properties
