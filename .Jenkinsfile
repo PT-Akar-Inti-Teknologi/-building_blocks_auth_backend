@@ -10,11 +10,17 @@ pipeline {
       PATH = newPath(env)
       ALLOWED_BRANCH = "development"
       RUN_SNYK= sh script: "git log -1 | grep -E -- '--run-snyk'", returnStatus: true
+      RUN_SONAR= sh script: "git log -1 | grep -E -- '--run-sonar'", returnStatus: true
+      RUN_BUILD= sh script: "git log -1 | grep -E -- '--run-build'", returnStatus: true      
+//    PVC_SPACE_SIZE = 1Gi
+//    PVC_MOUNT_PATH = /svr/data
+//    PVC_NAME = first-middle-end-pvc //optional for existing used
     }
 
   stages {
 
     stage('Check Commit') {
+      when { anyOf { branch "$ALLOWED_BRANCH" } }      
       steps {
         script {
           result = sh (script: "git log -1 | grep -E '(feat|build|chore|fix|docs|refactor|perf|style|test)(\\(.+\\))*:'", returnStatus: true)
@@ -26,7 +32,7 @@ pipeline {
     } 
 
     stage('Sonarqube Analysis') {
-      when { anyOf { branch "$ALLOWED_BRANCH" } }
+      when { allOf { branch "$ALLOWED_BRANCH"; expression { env.RUN_SONAR == '0' } } }
       environment {
         scannerHome = tool 'sonarqube-scanner'
       }
@@ -38,7 +44,7 @@ pipeline {
     }
 
     stage('Quality Gate') {
-      when { anyOf { branch "$ALLOWED_BRANCH" } }
+      when { allOf { branch "$ALLOWED_BRANCH"; expression { env.RUN_SONAR == '0' } } }
       steps {
         timeout(time: 1, unit: 'HOURS') {
           waitForQualityGate abortPipeline: false
@@ -84,7 +90,7 @@ pipeline {
     }
 
     stage('Build Image - Push - Deploy') {
-      when { anyOf { branch "$ALLOWED_BRANCH" } }
+      when { allOf { branch "$ALLOWED_BRANCH"; expression { env.RUN_BUILD == '0' } } }
       steps {
         script {
           withCredentials([file(credentialsId: 'ait-k8s-do', variable: 'KUBECONFIG'),
