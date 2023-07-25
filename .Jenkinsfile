@@ -20,7 +20,7 @@ pipeline {
   stages {
 
     stage('Check Commit') {
-      when { anyOf { branch "$ALLOWED_BRANCH" } }      
+      when { allOf { branch "$ALLOWED_BRANCH" } }      
       steps {
         script {
           result = sh (script: "git log -1 | grep -E '(feat|build|chore|fix|docs|refactor|perf|style|test)(\\(.+\\))*:'", returnStatus: true)
